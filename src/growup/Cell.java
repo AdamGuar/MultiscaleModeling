@@ -5,6 +5,7 @@
  */
 package growup;
 
+import growup.inclusion.Inclusion;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -21,6 +22,16 @@ public class Cell {
     private boolean nextIteration;
     private Color color;
     private boolean isInclusion;
+    private boolean border;
+
+    public boolean isBorder() {
+        return border;
+    }
+
+    public void setBorder(boolean border) {
+        this.border = border;
+    }
+    
 
     public boolean isIsInclusion() {
         return isInclusion;

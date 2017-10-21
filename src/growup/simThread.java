@@ -5,6 +5,8 @@
  */
 package growup;
 
+import growup.inclusion.Inclusion;
+import growup.inclusion.InclusionSet;
 import java.util.List;
 
 /**
@@ -19,17 +21,16 @@ public class simThread implements Runnable {
     private int radius;
     private int width;
     private int height;
-    private List<Inclusion> incl;
+    private InclusionSet incl;
 
-    public List<Inclusion> getIncl() {
+    public InclusionSet getIncl() {
         return incl;
     }
 
-    public void setIncl(List<Inclusion> incl) {
+    public void setIncl(InclusionSet incl) {
         this.incl = incl;
     }
-    
-    
+
 
     public int getWidth() {
         return width;

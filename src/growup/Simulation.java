@@ -5,6 +5,8 @@
  */
 package growup;
 
+import growup.inclusion.InclusionSet;
+import growup.inclusion.InclusionTimeType;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -31,6 +33,7 @@ public class Simulation implements KeyListener, MouseListener {
     private int width;
     private int height;
     public boolean isFilled = false;
+    private InclusionSet inclusions;
 
     float colorR, colorG, colorB;
 
@@ -71,13 +74,14 @@ public class Simulation implements KeyListener, MouseListener {
         return counter;
     }
 
-    public Simulation(int no, String type, String location, int radius, int width, int height, List<Inclusion> inclusions) {
+    public Simulation(int no, String type, String location, int radius, int width, int height, InclusionSet inclusions) {
         this.width = width / Cell.size;
         this.height = height / Cell.size;
         this.type = type;
         r = new Random();
         randColor = new Random();
         cells = new Cell[width][height];
+        this.inclusions = inclusions;
         
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -88,16 +92,8 @@ public class Simulation implements KeyListener, MouseListener {
 
         }
         
-        //Inclusion set up;
-        inclusions.forEach((i ->{
-            for(int x = 0 ; x < i.getSize();x++){
-                for(int y = 0 ; y < i.getSize();y++){
-                    if(i.getxLocation()+x < this.width && i.getyLocation()+y < this.height)
-                        cells[i.getxLocation()+x][i.getyLocation()+y].setIsInclusion(true);
-                }
-            }
-        
-        }));
+        if(inclusions.getTimeType().equals(InclusionTimeType.PRE))
+        this.inclusions.setInclusions(cells);
         
         
         if (location.equals("Random")) {
@@ -569,8 +565,66 @@ public class Simulation implements KeyListener, MouseListener {
                 }
             }
 
+        }else if(checkFilled() && !inclusions.isPainted()){
+            checkBorders();
+            if(inclusions.getTimeType().equals(InclusionTimeType.POST))
+                inclusions.setInclusions(cells);
         }
     }
+    
+    
+    public void checkBorders() {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int mx = i - 1;
+                if (mx < 0) {
+                    mx = width - 1;
+                }
+                int my = j - 1;
+                if (my < 0) {
+                    my = height - 1;
+                }
+                int gx = (i + 1) % width;
+                int gy = (j + 1) % height;
+
+                int anotherColorCounter = 0;
+
+                Color myColor = cells[i][j].getColor();
+
+                if (!cells[mx][my].getColor().equals(myColor)) {
+                    anotherColorCounter++;
+                }
+
+                if (!cells[mx][j].getColor().equals(myColor)) {
+                    anotherColorCounter++;
+                }
+
+                if (!cells[mx][gy].getColor().equals(myColor)) {
+                    anotherColorCounter++;
+                }
+                if (!cells[i][my].getColor().equals(myColor)) {
+                    anotherColorCounter++;
+                }
+                if (!cells[i][gy].getColor().equals(myColor)) {
+                    anotherColorCounter++;
+                }
+                if (!cells[gx][my].getColor().equals(myColor)) {
+                    anotherColorCounter++;
+                }
+                if (!cells[gx][j].getColor().equals(myColor)) {
+                    anotherColorCounter++;
+                }
+                if (!cells[gx][gy].getColor().equals(myColor)) {
+                    anotherColorCounter++;
+                }
+                
+                if(anotherColorCounter!=0) cells[i][j].setBorder(true);
+
+            }
+        }
+    }
+    
+    
 
     @Override
     public void keyTyped(KeyEvent ke) {

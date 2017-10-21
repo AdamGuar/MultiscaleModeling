@@ -5,6 +5,8 @@
  */
 package growup;
 
+import growup.inclusion.Inclusion;
+import growup.inclusion.InclusionSet;
 import growup.utils.BitMapUtils;
 import growup.utils.TextFileUtils;
 import java.awt.Graphics;
@@ -32,7 +34,7 @@ public class Frame extends JFrame {
     public int no;
     private Screen s;
     private Simulation sim;
-    private List<Inclusion> incl;
+    private InclusionSet incl;
 
     private int witdh;
     private int height;
@@ -167,7 +169,7 @@ public class Frame extends JFrame {
         setUpMenuBar();
     }
 
-    public Frame(int width, int height, List<Inclusion> incl) {
+    public Frame(int width, int height,InclusionSet incl) {
         this.witdh = width;
         this.height = height;
         setSize(this.witdh, this.height);
