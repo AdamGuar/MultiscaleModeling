@@ -5,7 +5,7 @@
  */
 package growup.utils;
 
-import growup.Cell;
+import growup.simulation.Cell;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,22 +18,6 @@ import javax.imageio.ImageIO;
  */
 public class BitMapUtils {
 
-    public static void writeImage(Color[][] colorArr) {
-        String path = "C:\\Users\\Dom\\Desktop\\Adam - Uczelnia\\img.png";
-        BufferedImage image = new BufferedImage(colorArr.length, colorArr[0].length, BufferedImage.TYPE_INT_RGB);
-        for (int x = 0; x < colorArr.length; x++) {
-            for (int y = 0; y < colorArr[0].length; y++) {
-                image.setRGB(x, y, colorArr[x][y].getRGB());
-            }
-        }
-
-        File ImageFile = new File(path);
-        try {
-            ImageIO.write(image, "png", ImageFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void writeImage(Cell[][] cellArr, String filePath) {
         String path = filePath;
