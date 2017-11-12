@@ -5,7 +5,7 @@
  */
 package growup.utils;
 
-import growup.Cell;
+import growup.simulation.Cell;
 import java.awt.Color;
 
 import java.awt.image.BufferedImage;

@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package growup;
+package growup.simulation;
 
+import growup.inclusion.Inclusion;
+import growup.inclusion.InclusionSet;
 import growup.utils.BitMapUtils;
 import growup.utils.TextFileUtils;
 import java.awt.Graphics;
@@ -32,10 +34,17 @@ public class Frame extends JFrame {
     public int no;
     private Screen s;
     private Simulation sim;
-    private List<Inclusion> incl;
+    private InclusionSet incl;
+    private int probabily;
 
     private int witdh;
     private int height;
+
+    public void setProbabily(int probabily) {
+        this.probabily = probabily;
+    }
+    
+    
 
     // Creates a menubar for a JFrame
     public int getWitdh() {
@@ -167,7 +176,7 @@ public class Frame extends JFrame {
         setUpMenuBar();
     }
 
-    public Frame(int width, int height, List<Inclusion> incl) {
+    public Frame(int width, int height,InclusionSet incl) {
         this.witdh = width;
         this.height = height;
         setSize(this.witdh, this.height);
@@ -177,7 +186,7 @@ public class Frame extends JFrame {
     }
 
     public void createScreen(String location, int radius) {
-        sim = new Simulation(no, simType, location, radius, this.witdh, this.height, this.incl);
+        sim = new Simulation(no, simType, location, radius, this.witdh, this.height, this.incl,this.probabily);
         s = new Screen();
         s.setBounds(0, 0, this.witdh, this.height);
         add(s);

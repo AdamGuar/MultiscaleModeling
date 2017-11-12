@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package growup;
+package growup.simulation;
 
+import growup.inclusion.Inclusion;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -21,6 +22,37 @@ public class Cell {
     private boolean nextIteration;
     private Color color;
     private boolean isInclusion;
+    private boolean border;
+    private boolean saved = false;
+    private int savedID;
+
+
+
+
+    public int getSavedID() {
+        return savedID;
+    }
+
+    public void setSavedID(int savedID) {
+        this.savedID = savedID;
+    }
+   
+    public boolean isSaved() {
+        return saved;
+    }
+
+    public void setSaved(boolean saved) {
+        this.saved = saved;
+    }
+    
+    public boolean isBorder() {
+        return border;
+    }
+
+    public void setBorder(boolean border) {
+        this.border = border;
+    }
+    
 
     public boolean isIsInclusion() {
         return isInclusion;
@@ -82,6 +114,14 @@ public class Cell {
         if (isInclusion){
             g.setColor(Inclusion.getInclusionColor());
         }
+        
+        if (saved){
+            if(SimulationControl.SECOND_GROW_TYPE.equals("Substructure"))
+                g.setColor(SimulationControl.SAVED_CELLS.get(this.savedID));
+            else
+                g.setColor(Color.PINK);
+        }
+        
         
         g.fillRect(x * size, y * size, size, size);
 

@@ -5,6 +5,12 @@
  */
 package growup;
 
+import growup.simulation.simThread;
+import growup.inclusion.Inclusion;
+import growup.inclusion.InclusionSet;
+import growup.inclusion.InclusionShape;
+import growup.inclusion.InclusionTimeType;
+import growup.simulation.SimulationControl;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +19,10 @@ import java.util.List;
  * @author student
  */
 public class MainGUI extends javax.swing.JFrame {
-
+    
+    
+    Thread thread;
+    
     /**
      * Creates new form MainGUI
      */
@@ -53,6 +62,19 @@ public class MainGUI extends javax.swing.JFrame {
         inclusionNumberSpinner = new javax.swing.JSpinner();
         inclusionSizeSpinner = new javax.swing.JSpinner();
         jSeparator2 = new javax.swing.JSeparator();
+        jLabel9 = new javax.swing.JLabel();
+        inclusionComboBox = new javax.swing.JComboBox<String>();
+        inclusionShapeComboBox = new javax.swing.JComboBox<String>();
+        jLabel10 = new javax.swing.JLabel();
+        radLabel1 = new javax.swing.JLabel();
+        moore2ProbabiltySpinner = new javax.swing.JSpinner();
+        jButton1 = new javax.swing.JButton();
+        secondGrowCombo = new javax.swing.JComboBox<String>();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel11 = new javax.swing.JLabel();
+        drawBordersCheckBox = new javax.swing.JCheckBox();
+        jLabel12 = new javax.swing.JLabel();
+        thicknessSpinner = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Naive grain growth");
@@ -65,7 +87,7 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
-        nbhoodCheck.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Moore", "VonNeuman", "HexLewy", "HexPrawy", "HexRandom", "Penta" }));
+        nbhoodCheck.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Moore", "Moore2" }));
         nbhoodCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nbhoodCheckActionPerformed(evt);
@@ -106,54 +128,113 @@ public class MainGUI extends javax.swing.JFrame {
 
         jLabel8.setText("Size");
 
+        jLabel9.setText("Including time");
+
+        inclusionComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PRE", "POST" }));
+        inclusionComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inclusionComboBoxActionPerformed(evt);
+            }
+        });
+
+        inclusionShapeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SQUARE", "CIRCLE" }));
+        inclusionShapeComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inclusionShapeComboBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setText("Inclusion shape");
+
+        radLabel1.setText("Moore2 probablity:");
+
+        jButton1.setText("Second grow");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        secondGrowCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Substructure", "DualPhase" }));
+
+        jLabel11.setText("Borders");
+
+        drawBordersCheckBox.setText("Draw borders after simulation");
+
+        jLabel12.setText("Thickness");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(177, 177, 177)
-                        .addComponent(startButton)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(mouseSeedsLabel)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(drawBordersCheckBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(mouseSeedsCounter))
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(98, 98, 98))
+                    .addComponent(jSeparator3)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(secondGrowCombo, 0, 145, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(radLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(widthSpinner, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(radSpinner)
-                                    .addComponent(nbhoodCheck, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jSpinner1)
-                                    .addComponent(locationBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(heightSpinner)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel8))
+                                    .addComponent(jLabel5))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(widthSpinner, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(nbhoodCheck, 0, 92, Short.MAX_VALUE)
+                                    .addComponent(jSpinner1)
+                                    .addComponent(heightSpinner)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(mouseSeedsLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(mouseSeedsCounter))
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel10))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(inclusionShapeComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(inclusionNumberSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-                                    .addComponent(inclusionSizeSpinner))))))
-                .addContainerGap())
-            .addComponent(jSeparator2)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(98, 98, 98))
+                                    .addComponent(inclusionSizeSpinner)
+                                    .addComponent(inclusionComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(radLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(radSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(radLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(53, 198, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(locationBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(moore2ProbabiltySpinner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(thicknessSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,14 +244,18 @@ public class MainGUI extends javax.swing.JFrame {
                     .addComponent(nbhoodCheck, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(radLabel1)
+                    .addComponent(moore2ProbabiltySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
                     .addComponent(locationBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(radLabel)
                     .addComponent(radSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -194,14 +279,38 @@ public class MainGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inclusionSizeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(inclusionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(inclusionShapeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
                 .addGap(18, 18, 18)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel11))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(drawBordersCheckBox)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(thicknessSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mouseSeedsLabel)
                     .addComponent(mouseSeedsCounter))
-                .addGap(19, 19, 19)
-                .addComponent(startButton)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(startButton)
+                    .addComponent(jButton1)
+                    .addComponent(secondGrowCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -209,7 +318,7 @@ public class MainGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void additionalComponentsInitalization() {
-        nbhoodCheck.setEnabled(false);
+        nbhoodCheck.setEnabled(true);
         widthSpinner.setValue(800);
         heightSpinner.setValue(600);
         locationBox.setEnabled(false);
@@ -219,6 +328,8 @@ public class MainGUI extends javax.swing.JFrame {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         // TODO add your handling code here:
+        if(thread!=null)
+            thread.stop();
         
         int width = (Integer) widthSpinner.getValue();
         int height = (Integer) heightSpinner.getValue();
@@ -237,14 +348,24 @@ public class MainGUI extends javax.swing.JFrame {
             inclusions.add(new Inclusion(size, width, height));
         }
         
-        runner.setIncl(inclusions);
+        InclusionTimeType timeType = InclusionTimeType.valueOf(inclusionComboBox.getSelectedItem().toString());
+        InclusionShape shape = InclusionShape.valueOf(inclusionShapeComboBox.getSelectedItem().toString());
+        SimulationControl.DRAW_BORDERS = drawBordersCheckBox.isSelected();
+        SimulationControl.BORDER_THICKNESS = Integer.parseInt(thicknessSpinner.getValue().toString());
+        
+        InclusionSet inclusionsSet = new InclusionSet(inclusions, timeType,shape);
+        
+        runner.setIncl(inclusionsSet);
         
         runner.setType(nbhoodCheck.getSelectedItem().toString());
         runner.setLocation(locationBox.getSelectedItem().toString());
         runner.setRadius((int) radSpinner.getValue());
+        runner.setProbabilty((int) moore2ProbabiltySpinner.getValue());
         runner.simSpeed = (float) 10000;
         runner.no = (int) jSpinner1.getValue();
-        Thread thread = new Thread(runner);
+        runner.setUpFrame();
+        thread = new Thread(runner);
+        
         thread.start();
         
 
@@ -264,6 +385,23 @@ public class MainGUI extends javax.swing.JFrame {
     private void nbhoodCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nbhoodCheckActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nbhoodCheckActionPerformed
+
+    private void inclusionComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inclusionComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inclusionComboBoxActionPerformed
+
+    private void inclusionShapeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inclusionShapeComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inclusionShapeComboBoxActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        SimulationControl.CLEAR_SCREAN = true;
+        SimulationControl.RESTART_SIM = true;
+        SimulationControl.GRAINS_NO = (int) jSpinner1.getValue();
+        SimulationControl.PROBABILITY = (int) moore2ProbabiltySpinner.getValue();
+        SimulationControl.TYPE = nbhoodCheck.getSelectedItem().toString();
+        SimulationControl.SECOND_GROW_TYPE = secondGrowCombo.getSelectedItem().toString();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,10 +439,17 @@ public class MainGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox drawBordersCheckBox;
     private javax.swing.JSpinner heightSpinner;
+    private javax.swing.JComboBox<String> inclusionComboBox;
     private javax.swing.JSpinner inclusionNumberSpinner;
+    private javax.swing.JComboBox<String> inclusionShapeComboBox;
     private javax.swing.JSpinner inclusionSizeSpinner;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -312,16 +457,22 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JComboBox locationBox;
+    private javax.swing.JSpinner moore2ProbabiltySpinner;
     private javax.swing.JLabel mouseSeedsCounter;
     public static javax.swing.JLabel mouseSeedsLabel;
     private javax.swing.JComboBox nbhoodCheck;
     private javax.swing.JLabel radLabel;
+    private javax.swing.JLabel radLabel1;
     private javax.swing.JSpinner radSpinner;
+    private javax.swing.JComboBox<String> secondGrowCombo;
     private javax.swing.JButton startButton;
+    private javax.swing.JSpinner thicknessSpinner;
     private javax.swing.JSpinner widthSpinner;
     // End of variables declaration//GEN-END:variables
 }

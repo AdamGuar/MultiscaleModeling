@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package growup;
+package growup.simulation;
 
+import growup.inclusion.Inclusion;
+import growup.inclusion.InclusionSet;
 import java.util.List;
 
 /**
@@ -19,17 +21,44 @@ public class simThread implements Runnable {
     private int radius;
     private int width;
     private int height;
-    private List<Inclusion> incl;
+    private InclusionSet incl;
+    private int probabilty;
+    private Frame f;
+    
+    
+    
+    public void setUpFrame(){
+        f = new Frame(this.width, this.height,this.incl);
+        f.setProbabily(probabilty);
+        f.setSimType(type);
+        //f.iterationTime=simSpeed;
+        f.no = no;
+        f.setVisible(true);
+        f.setResizable(false);
+        f.setLocationRelativeTo(null);
+        f.createScreen(location, radius);
+    }
+    
+    
 
-    public List<Inclusion> getIncl() {
+    public int getProbabilty() {
+        return probabilty;
+    }
+
+    public void setProbabilty(int probabilty) {
+        this.probabilty = probabilty;
+    }
+    
+    
+
+    public InclusionSet getIncl() {
         return incl;
     }
 
-    public void setIncl(List<Inclusion> incl) {
+    public void setIncl(InclusionSet incl) {
         this.incl = incl;
     }
-    
-    
+
 
     public int getWidth() {
         return width;
@@ -74,17 +103,7 @@ public class simThread implements Runnable {
 
     @Override
     public void run() {
-        Frame f = new Frame(this.width, this.height,this.incl);
-        f.setSimType(type);
-        //f.iterationTime=simSpeed;
-        f.no = no;
-
-        f.setVisible(true);
-        f.setResizable(false);
-
-        f.setLocationRelativeTo(null);
-
-        f.createScreen(location, radius);
+      
 
         long lastFrame = System.currentTimeMillis();
 
