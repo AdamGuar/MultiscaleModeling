@@ -25,10 +25,30 @@ public class Cell {
     private boolean border;
     private boolean saved = false;
     private int savedID;
+    private int H;
+    private boolean recrystalized = false;
 
+    public boolean isRecrystalized() {
+        return recrystalized;
+    }
+    
+    public void setisRecrystalized(boolean rec){
+        this.recrystalized = rec;
+    }
+    
+    public void toggleRecrystalization(){
+        this.recrystalized = true;
+        this.H = 0;
+    }
 
+    public int getH() {
+        return H;
+    }
 
-
+    public void setH(int H) {
+        this.H = H;
+    }
+    
     public int getSavedID() {
         return savedID;
     }
@@ -126,5 +146,24 @@ public class Cell {
         g.fillRect(x * size, y * size, size, size);
 
     }
+    
+    public void drawCellenegry(Graphics g) {
+
+        
+       if(this.recrystalized)
+           g.setColor(Color.black);
+       else if (SimulationControl.ENERGY_HOMOGENOUS)
+           g.setColor(Color.blue);
+       else
+           if(this.H<SimulationControl.REC_ENERGY_HIGHER_VALUE)
+               g.setColor(Color.blue);
+           else 
+               g.setColor(Color.green);
+        
+        
+        g.fillRect(x * size, y * size, size, size);
+
+    }
+    
 
 }
