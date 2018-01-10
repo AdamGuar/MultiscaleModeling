@@ -10,15 +10,11 @@ import growup.inclusion.Inclusion;
 import growup.inclusion.InclusionSet;
 import growup.inclusion.InclusionShape;
 import growup.inclusion.InclusionTimeType;
-import growup.simulation.DistributionFrame;
 import growup.simulation.EnegryDisttributionFrame;
 import growup.simulation.Frame;
-import growup.simulation.Nucleon;
 import growup.simulation.SimulationControl;
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
@@ -68,13 +64,13 @@ public class MainGUI extends javax.swing.JFrame {
         inclusionSizeSpinner = new javax.swing.JSpinner();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel9 = new javax.swing.JLabel();
-        inclusionComboBox = new javax.swing.JComboBox<>();
-        inclusionShapeComboBox = new javax.swing.JComboBox<>();
+        inclusionComboBox = new javax.swing.JComboBox<String>();
+        inclusionShapeComboBox = new javax.swing.JComboBox<String>();
         jLabel10 = new javax.swing.JLabel();
         radLabel1 = new javax.swing.JLabel();
         moore2ProbabiltySpinner = new javax.swing.JSpinner();
         jButton1 = new javax.swing.JButton();
-        secondGrowCombo = new javax.swing.JComboBox<>();
+        secondGrowCombo = new javax.swing.JComboBox<String>();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
         drawBordersCheckBox = new javax.swing.JCheckBox();
@@ -85,14 +81,18 @@ public class MainGUI extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         jLabel16 = new javax.swing.JLabel();
-        nucleonsTypeSpinner = new javax.swing.JSpinner();
+        recrystalizationNucleonsSpinner = new javax.swing.JSpinner();
         jLabel17 = new javax.swing.JLabel();
         recrystalizationComboBox = new javax.swing.JComboBox();
         jLabel18 = new javax.swing.JLabel();
-        numberOfNucleonsSpinner = new javax.swing.JSpinner();
+        recrystalizationEnegryDistributionValueSpinner = new javax.swing.JSpinner();
         recrystalizeButton = new javax.swing.JButton();
         showEnergyDistributionButton = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JSeparator();
+        jLabel19 = new javax.swing.JLabel();
+        energyValueInside = new javax.swing.JSpinner();
+        jLabel20 = new javax.swing.JLabel();
+        energyValueBoundaries = new javax.swing.JSpinner();
 
         jLabel14.setText("jLabel14");
 
@@ -144,14 +144,14 @@ public class MainGUI extends javax.swing.JFrame {
 
         jLabel9.setText("Including time");
 
-        inclusionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PRE", "POST" }));
+        inclusionComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PRE", "POST" }));
         inclusionComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inclusionComboBoxActionPerformed(evt);
             }
         });
 
-        inclusionShapeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SQUARE", "CIRCLE" }));
+        inclusionShapeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SQUARE", "CIRCLE" }));
         inclusionShapeComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inclusionShapeComboBoxActionPerformed(evt);
@@ -169,7 +169,7 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
-        secondGrowCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Substructure", "DualPhase" }));
+        secondGrowCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Substructure", "DualPhase" }));
 
         jLabel11.setText("Borders");
 
@@ -188,7 +188,7 @@ public class MainGUI extends javax.swing.JFrame {
 
         jLabel15.setText("Recrystalization");
 
-        jLabel16.setText("Number of nucleons types");
+        jLabel16.setText("Number of nucleons");
 
         jLabel17.setText("Energy distribution type");
 
@@ -199,7 +199,7 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel18.setText("Number of nucleons");
+        jLabel18.setText("Enegry distribution value");
 
         recrystalizeButton.setText("Recrystalize");
         recrystalizeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -215,6 +215,10 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel19.setText("Energy value inside grain");
+
+        jLabel20.setText("Energy value on grain boundaries");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -222,6 +226,7 @@ public class MainGUI extends javax.swing.JFrame {
             .addComponent(jSeparator1)
             .addComponent(jSeparator2)
             .addComponent(jSeparator4)
+            .addComponent(jSeparator5)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,7 +292,7 @@ public class MainGUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(nucleonsTypeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(recrystalizationNucleonsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,14 +307,23 @@ public class MainGUI extends javax.swing.JFrame {
                             .addComponent(jLabel15)
                             .addComponent(jLabel18))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(numberOfNucleonsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(recrystalizationEnegryDistributionValueSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(recrystalizeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(showEnergyDistributionButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(energyValueInside, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(energyValueBoundaries, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
-            .addComponent(jSeparator5)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -388,7 +402,7 @@ public class MainGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(nucleonsTypeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(recrystalizationNucleonsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(recrystalizationComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -396,14 +410,22 @@ public class MainGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(numberOfNucleonsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(recrystalizationEnegryDistributionValueSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(energyValueInside, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(energyValueBoundaries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(recrystalizeButton)
                     .addComponent(showEnergyDistributionButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startButton)
                     .addComponent(jButton1)
@@ -513,9 +535,8 @@ public class MainGUI extends javax.swing.JFrame {
         
         
         SimulationControl.DISTRIBUTE_ENERGY = true;
+
         
-        DistributionFrame dstFrame = new DistributionFrame(SimulationControl.PUBLIC_CELLS,width,height);
-        dstFrame.setVisible(true);
     }//GEN-LAST:event_showEnergyDistributionButtonActionPerformed
 
     private void recrystalizationComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recrystalizationComboBoxActionPerformed
@@ -524,18 +545,14 @@ public class MainGUI extends javax.swing.JFrame {
             SimulationControl.ENERGY_HOMOGENOUS = true;
         else
             SimulationControl.ENERGY_HOMOGENOUS = false;
+        
+        SimulationControl.REC_ENERGY_LOWER_VALUE = (Integer) energyValueInside.getValue();
+        SimulationControl.REC_ENERGY_HIGHER_VALUE = (Integer) energyValueBoundaries.getValue();
+        
     }//GEN-LAST:event_recrystalizationComboBoxActionPerformed
 
     private void recrystalizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recrystalizeButtonActionPerformed
-        SimulationControl.REC_NUCLEONS_COLORS = generateColors((Integer) nucleonsTypeSpinner.getValue());
-        SimulationControl.REC_NUCLEONS = generateNucleons((Integer) numberOfNucleonsSpinner.getValue());
-        
-        SimulationControl.IS_MONTE_CARLO = false;
-        SimulationControl.DISTRIBUTE_ENERGY = true;
-        SimulationControl.INITIALIZE_NUCLEONS = true;
-        SimulationControl.RECRYSTALIZE = true;
-        
-        
+        // TODO add your handling code here:
     }//GEN-LAST:event_recrystalizeButtonActionPerformed
 
     /**
@@ -575,6 +592,8 @@ public class MainGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox drawBordersCheckBox;
+    private javax.swing.JSpinner energyValueBoundaries;
+    private javax.swing.JSpinner energyValueInside;
     private javax.swing.JSpinner heightSpinner;
     private javax.swing.JComboBox<String> inclusionComboBox;
     private javax.swing.JSpinner inclusionNumberSpinner;
@@ -591,7 +610,9 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -609,12 +630,12 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox monteCarloCheckBox;
     private javax.swing.JSpinner moore2ProbabiltySpinner;
     private javax.swing.JComboBox nbhoodCheck;
-    private javax.swing.JSpinner nucleonsTypeSpinner;
-    private javax.swing.JSpinner numberOfNucleonsSpinner;
     private javax.swing.JLabel radLabel;
     private javax.swing.JLabel radLabel1;
     private javax.swing.JSpinner radSpinner;
     private javax.swing.JComboBox recrystalizationComboBox;
+    private javax.swing.JSpinner recrystalizationEnegryDistributionValueSpinner;
+    private javax.swing.JSpinner recrystalizationNucleonsSpinner;
     private javax.swing.JButton recrystalizeButton;
     private javax.swing.JComboBox<String> secondGrowCombo;
     private javax.swing.JButton showEnergyDistributionButton;
@@ -622,32 +643,4 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JSpinner thicknessSpinner;
     private javax.swing.JSpinner widthSpinner;
     // End of variables declaration//GEN-END:variables
-
-    private List<Color> generateColors(Integer n) {
-        List<Color> colors = new ArrayList<Color>();
-        for(int i=0;i<n;i++){
-            Random rand = new Random();
-            float r = rand.nextFloat();
-            float g = rand.nextFloat();
-            float b = rand.nextFloat();
-            Color randomColor = new Color(r, g, b);
-            colors.add(randomColor);
-        }
-        return colors;
-    }
-
-    private List<Nucleon> generateNucleons(Integer n) {
-        List<Nucleon> nucleons = new ArrayList<Nucleon>();
-        int width = (Integer) widthSpinner.getValue() -1;
-        int height = (Integer) heightSpinner.getValue() -1;
-        for(int i=0;i<n;i++){
-            Random rand = new Random();
-            int x = rand.nextInt(width - 0 + 1) + 0;
-            int y = rand.nextInt(height - 0 + 1) + 0;
-            int index = rand.nextInt(SimulationControl.REC_NUCLEONS_COLORS.size());
-            Nucleon nuc = new Nucleon(x, y, SimulationControl.REC_NUCLEONS_COLORS.get(index));
-            nucleons.add(nuc);
-        }
-        return nucleons;
-    }
 }

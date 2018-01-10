@@ -32,14 +32,7 @@ public class Cell {
         return recrystalized;
     }
     
-    public void setisRecrystalized(boolean rec){
-        this.recrystalized = rec;
-    }
     
-    public void toggleRecrystalization(){
-        this.recrystalized = true;
-        this.H = 0;
-    }
 
     public int getH() {
         return H;
@@ -164,6 +157,7 @@ public class Cell {
         g.fillRect(x * size, y * size, size, size);
 
     }
+    
     
 
 }
