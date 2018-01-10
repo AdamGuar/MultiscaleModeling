@@ -31,15 +31,11 @@ public class SimulationControl {
     public static Map<Integer,Color> SAVED_CELLS = new HashMap<Integer,Color>();
     
     public static boolean ENERGY_HOMOGENOUS = true;
-    public static int REC_ENERGY_LOWER_VALUE = 5;
-    public static int REC_ENERGY_HIGHER_VALUE = 8;
+    public static int REC_ENERGY_LOWER_VALUE = 2;
+    public static int REC_ENERGY_HIGHER_VALUE = 5;
     
     public static boolean DISTRIBUTE_ENERGY = false;
-    public static Cell[][] PUBLIC_CELLS = null;
-    public static boolean RECRYSTALIZE = false;
-    public static List<Color> REC_NUCLEONS_COLORS;
-    public static List<Nucleon> REC_NUCLEONS;
-    public static boolean INITIALIZE_NUCLEONS = false;
+    
     
     
 }
